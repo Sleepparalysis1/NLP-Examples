@@ -76,6 +76,9 @@ The script will print status messages, including the image source used. The prim
 * This image shows the original input image with **colored, semi-transparent masks** overlaid on the areas corresponding to the different semantic categories detected by the model (e.g., road, sky, car, person, building). A legend mapping the random colors to the detected labels is included next to the image.
 
 You can open `segmentation_visualization.png` with any standard image viewer.
+![my_segmentation_image](https://github.com/user-attachments/assets/b24ce646-2177-4d7d-952c-075c8b1fc23f)
+
+![segmentation_visualization](https://github.com/user-attachments/assets/6a83ea7a-87b7-4fed-9f5a-a5fe855b93df)
 
 ## Troubleshooting
 
