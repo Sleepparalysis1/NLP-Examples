@@ -2,11 +2,11 @@
 
 This repository contains a collection of Python scripts demonstrating how to run various AI tasks locally using models from the Hugging Face Hub and the `transformers` library (along with related libraries like `datasets`, `sentence-transformers`, etc.).
 
-These examples cover a range of modalities including **Text**, **Vision**, and **Audio**, showcasing different models and pipelines available within the Hugging Face ecosystem. Each script aims to be runnable with minimal modification (often just providing an input file path or configuring text/labels within the script).
+These examples cover a range of modalities including **Text**, **Vision**, **Audio**, and **Multimodal** combinations, showcasing different models and pipelines available within the Hugging Face ecosystem. Each script aims to be runnable with minimal modification (often just providing an input file path or configuring text/labels/data within the script).
 
 ## Examples Included
 
-The scripts are categorized by the primary data modality they handle:
+The scripts are categorized by the primary data modalities they handle:
 
 ### 📝 Text Examples
 
@@ -47,7 +47,7 @@ The scripts are categorized by the primary data modality they handle:
     * Task: Simulating multi-turn conversation via text generation pipeline.
     * Model: `microsoft/DialoGPT-medium`
 
-### 🖼️ Vision Examples (Image Input)
+### 🖼️ Vision Examples (Purely Image Input/Output)
 
 1.  **Image Classification (`run_image_classification.py`)**
     * Task: Classifying the main subject of an image.
@@ -55,34 +55,43 @@ The scripts are categorized by the primary data modality they handle:
 2.  **Object Detection (`run_object_detection_annotated.py`)**
     * Task: Identifying multiple objects in an image with bounding boxes and labels (plus annotation).
     * Model: `facebook/detr-resnet-50`
-3.  **Image Captioning (`run_image_captioning.py`)**
-    * Task: Generating a text description for an image.
-    * Model: `nlpconnect/vit-gpt2-image-captioning`
-4.  **Visual Question Answering (VQA) (`run_vqa.py`)**
-    * Task: Answering questions based on image content.
-    * Model: `dandelin/vilt-b32-finetuned-vqa`
-5.  **Zero-Shot Image Classification (`run_zero_shot_image.py`)**
-    * Task: Classifying images against arbitrary text labels (requires `ftfy`, `regex`).
-    * Model: `openai/clip-vit-base-patch32`
-6.  **Depth Estimation (`run_depth_estimation.py`)**
+3.  **Depth Estimation (`run_depth_estimation.py`)**
     * Task: Estimating depth from a single image, saving a depth map.
     * Model: `Intel/dpt-large`
-7.  **Image Segmentation (`run_segmentation.py`)**
+4.  **Image Segmentation (`run_segmentation.py`)**
     * Task: Assigning category labels (e.g., road, sky, car) to each pixel (requires `matplotlib`, `numpy`).
     * Model: `nvidia/segformer-b0-finetuned-ade-512-512`
 
-### 🎧 Audio Examples
+### 🎧 Audio Examples (Purely Audio Input/Output)
+
+1.  **Audio Classification (`run_audio_classification.py`)**
+    * Task: Classifying the type of sound in an audio file (e.g., Speech, Music).
+    * Model: `MIT/ast-finetuned-audioset-10-10-0.4593`
+
+### 🔄 Multimodal Examples (Vision + Text)
+
+1.  **Image Captioning (`run_image_captioning.py`)**
+    * Task: Generating a text description for an image.
+    * Model: `nlpconnect/vit-gpt2-image-captioning`
+2.  **Visual Question Answering (VQA) (`run_vqa.py`)**
+    * Task: Answering questions based on image content.
+    * Model: `dandelin/vilt-b32-finetuned-vqa`
+3.  **Zero-Shot Image Classification (`run_zero_shot_image.py`)**
+    * Task: Classifying images against arbitrary text labels (requires `ftfy`, `regex`).
+    * Model: `openai/clip-vit-base-patch32`
+4.  **Document Question Answering (DocVQA) (`run_docvqa.py`)**
+    * Task: Answering questions based on document image content (requires `sentencepiece`).
+    * Model: `naver-clova-ix/donut-base-finetuned-docvqa`
+
+### 🔄 Multimodal Examples (Audio + Text)
 
 1.  **Automatic Speech Recognition (ASR) (`run_asr_flexible.py`)**
     * Task: Transcribing speech from an audio file to text.
     * Model: `openai/whisper-base`
-2.  **Audio Classification (`run_audio_classification.py`)**
-    * Task: Classifying the type of sound in an audio file (e.g., Speech, Music).
-    * Model: `MIT/ast-finetuned-audioset-10-10-0.4593`
-3.  **Zero-Shot Audio Classification (`run_zero_shot_audio.py`)**
+2.  **Zero-Shot Audio Classification (`run_zero_shot_audio.py`)**
     * Task: Classifying sounds against arbitrary text labels.
     * Model: `laion/clap-htsat-unfused`
-4.  **Text-to-Speech (TTS) (`run_tts.py`)**
+3.  **Text-to-Speech (TTS) (`run_tts.py`)**
     * Task: Generating speech audio from text (requires `SpeechRecognition`, `protobuf`).
     * Model: `microsoft/speecht5_tts` + `microsoft/speecht5_hifigan`
 
@@ -100,9 +109,9 @@ Before running these scripts, ensure you have the following:
     *(Other operating systems may require different commands to install equivalent libraries).*
 3.  **Python Libraries:** It's highly recommended to use a Python virtual environment. You can install all common dependencies used across these examples with a single command:
     ```bash
-    pip install "transformers[audio]" torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests pandas torch-scatter ftfy regex numpy torchaudio matplotlib SpeechRecognition protobuf
+    pip install "transformers[audio,sentencepiece]" torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests pandas torch-scatter ftfy regex numpy torchaudio matplotlib SpeechRecognition protobuf
     ```
-    * **Note:** Using `"transformers[audio]"` helps install common audio dependencies like `librosa`. We explicitly list others for clarity. Not every script requires *all* of these libraries. However, installing them all ensures you can run any example. Refer to individual script READMEs (if provided) or comments within the files for minimal requirements.
+    * **Note:** Using `"transformers[audio,sentencepiece]"` helps install common audio dependencies and `sentencepiece`. We explicitly list others for clarity. Not every script requires *all* of these libraries. However, installing them all ensures you can run any example. Refer to individual script READMEs (if provided) or comments within the files for minimal requirements.
 
 ## General Usage
 
@@ -129,7 +138,7 @@ Before running these scripts, ensure you have the following:
         ```bash
         python <script_name>.py
         ```
-        (e.g., `python run_sentiment.py`, `python run_segmentation.py`)
+        (e.g., `python run_sentiment.py`, `python run_docvqa.py`)
 
 ## Model Downloads
 
@@ -145,4 +154,4 @@ The first time you run a script using a specific Hugging Face model, the necessa
 
 * The Python scripts in this repository are provided as examples, likely under the MIT License (or specify your chosen license).
 * The Hugging Face libraries (`transformers`, `datasets`, etc.) are typically licensed under Apache 2.0.
-* Individual models downloaded from the Hugging Face Hub have their own licenses. Please refer to the model card on the Hub for specific terms of use for each model.
+* Individual models downloaded from the Hugging Face Hub have their own licenses. Please refer to the model card on the Hub for specific terms of use for each model (note that some models like Donut might have non-commercial restrictions).
