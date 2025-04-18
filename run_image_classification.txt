@@ -1,0 +1,34 @@
+This example demonstrates Image Classification using a Vision Transformer (ViT) model locally.
+
+The task is to take an image as input and predict what object or scene it contains, based on categories the model was trained on (typically the ImageNet dataset).
+
+Prerequisites:
+
+This example requires additional libraries for image handling, specifically Pillow. Depending on the specific model and transformers version, torchvision and timm might also be beneficial or required for image processing.
+
+Bash
+
+# Install Pillow for image loading, torchvision/timm often needed for vision models
+pip install transformers torch Pillow torchvision timm
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We will use google/vit-base-patch16-224. This is a Vision Transformer model from Google, pre-trained on ImageNet-1k, representing a modern approach to image classification using transformer architectures.
+
+How to Run:
+
+CRITICAL: Open the run_image_classification.py file and change the image_path variable to the actual path of an image file (.jpg, .png, etc.) on your computer. You could use a picture of a common object (cat, dog, car, flower), a scene, or perhaps something relevant to Perth (a quokka, beach, cityscape - though ImageNet labels might be generic like "seashore", "cityscape").
+Make sure you've run pip install transformers torch Pillow torchvision timm in your activated virtual environment.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_image_classification.py
+What to Expect:
+
+First Run: It will download the google/vit-base-patch16-224 model files (Vision Transformer models can be a few hundred MB) and cache them locally.
+Classification Execution: The model will process the image file you specified.
+Output: It will print the top 5 predicted labels for your image, along with their confidence scores. The labels will likely come from the ImageNet dataset (which has 1000 categories like "Egyptian cat", "golden retriever", "sports car", "daisy", "seashore", "monitor", "laptop", etc.). The accuracy will depend on how well your image fits into one of the training categories.
+This example brings in a new modality (vision) and shows how to use a specific Vision Transformer model locally with Hugging Face pipeline. Remember to provide your own image path!

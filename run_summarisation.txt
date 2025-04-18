@@ -1,0 +1,33 @@
+ this time focusing on Text Summarization and explicitly using the popular facebook/bart-large-cnn model.
+
+This model is designed to take a longer piece of text and generate a shorter, abstractive summary (meaning it can use words not present in the original text, like a human would).
+
+Prerequisites:
+
+Ensure you have the necessary libraries. BART models typically require sentencepiece.
+
+Bash
+
+pip install transformers sentencepiece torch
+# Or: pip install transformers sentencepiece tensorflow
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We'll use facebook/bart-large-cnn, a large BART model fine-tuned on the CNN/Daily Mail news dataset, which is a standard benchmark for summarization.
+
+How to Run:
+
+Make sure you've run pip install transformers sentencepiece torch (or the tensorflow equivalent) in your activated virtual environment.
+Save the code above into a file named run_summarization.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_summarization.py
+What to Expect:
+
+First Run: It will download the facebook/bart-large-cnn model files. This is another large model (over 1.5GB), so the download may take some time. It will be cached locally.
+Summarization Execution: The model will process the long input text about Perth traffic.
+Output: It will print a concise summary of the provided text, aiming for a length between the min_length and max_length specified. The summary should capture the main points: Friday afternoon traffic delays in Perth due to an accident, heavy volume, and road closures for an upcoming festival, with advice to allow extra travel time.

@@ -1,0 +1,13 @@
+How to Run:
+
+Save the code above into a file named run_sentiment.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment (if you created one) is activated (source .venv/bin/activate).
+Run the script using Python:
+Bash
+
+python run_sentiment.py
+What to Expect:
+
+First Run: It will print "Loading model..." and then likely pause for a while as it downloads the model files (a few hundred MB) from the Hugging Face Hub to your cache (~/.cache/huggingface/hub). You'll see download progress bars. After downloading, it will perform the analysis and print the results.
+Subsequent Runs: It will load the model much faster from your local cache and then perform the analysis.

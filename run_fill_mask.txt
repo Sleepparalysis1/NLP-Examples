@@ -1,0 +1,39 @@
+demonstrating the Fill-Mask task (also known as Masked Language Modeling).
+
+This task involves predicting a word that has been hidden (masked) in a sentence. It's fundamental to how models like BERT and RoBERTa are pre-trained.
+
+Prerequisites:
+
+Ensure you have the necessary libraries. RoBERTa uses sentencepiece.
+
+Bash
+
+pip install transformers sentencepiece torch
+# Or: pip install transformers sentencepiece tensorflow
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We will use roberta-base. This uses the RoBERTa architecture, which has some improvements over the original BERT, and we haven't explicitly used a RoBERTa model in previous examples. It's important to note RoBERTa uses <mask> as its mask token, unlike BERT which uses [MASK].
+
+How to Run:
+
+Make sure you've run pip install transformers sentencepiece torch (or the tensorflow equivalent) in your activated virtual environment.
+Save the code above into a file named run_fill_mask.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_fill_mask.py
+What to Expect:
+
+First Run: It will download the roberta-base model files (similar size to BERT-base, around 500MB) and cache them locally.
+Prediction Execution: The model will analyze the context around the <mask> token in the input sentence.
+Output: It will print the top 5 most likely words (according to the RoBERTa model) to fill the mask. For the example sentence, you should expect predictions related to the end of the work week, such as:
+weekend
+break
+evening
+end
+start (as in, start of the weekend) The output will show the score for each prediction and the complete sentence with the mask filled by that prediction.
+This example demonstrates how to use a pre-trained model like RoBERTa for its fundamental task of predicting masked words, showcasing its understanding of language context, all running locally.

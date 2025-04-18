@@ -1,0 +1,49 @@
+Let's try another vision task that builds on the previous one: Object Detection.
+
+Instead of just classifying the whole image, object detection models identify multiple objects within an image and draw bounding boxes around them, also classifying each detected object.
+
+Prerequisites:
+
+This example uses the same core vision libraries as the previous one. Ensure you have them installed:
+
+Bash
+
+pip install transformers torch Pillow torchvision timm requests
+(Note: We added requests to optionally download a sample image).
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We will use facebook/detr-resnet-50. This is a DETR (DEtection TRansformer) model, which applies the transformer architecture to object detection, combined with a standard ResNet-50 backbone for feature extraction. It's trained on the COCO dataset, which includes 91 common object categories (people, cars, dogs, cats, tables, chairs, etc.).
+
+How to Run:
+
+Image Choice:
+You can place your own image file (containing common objects like people, cars, furniture, animals) in the same directory as the script and rename it to my_object_detection_image.jpg.
+OR, just run the script as is. If it doesn't find my_object_detection_image.jpg, it will attempt to download a sample image (detr_sample_image.jpg) containing cats and a remote control.
+Make sure you've run pip install transformers torch Pillow torchvision timm requests in your activated virtual environment.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_object_detection.py
+What to Expect:
+
+First Run: It will download the facebook/detr-resnet-50 model files (DETR models can be several hundred MB) and cache them locally. If you didn't provide your own image, it will also download the sample JPG.
+Detection Execution: The model will analyze the image (either yours or the downloaded sample).
+Output: It will print a list of detected objects that exceed the confidence threshold (0.9 in this case). For each detected object, it will show:
+The predicted label (e.g., "cat", "remote", "couch" for the sample image; or "person", "car", "traffic light" for a street scene).
+The confidence score.
+The coordinates of the bounding box (xmin, ymin, xmax, ymax) around the detected object in the image (pixel values).
+
+
+What to Expect:
+
+The script will perform the object detection as before.
+New: It will then:
+Open the image used for detection.
+Draw bright green (lime) rectangles around each detected object (with score > 0.9).
+Write the object label and confidence score (e.g., "cat: 0.99") in black text on a green background just above each box.
+Save the resulting image with annotations as object_detection_output.jpg in the same directory where you run the script.
+You can then open object_detection_output.jpg with any image viewer to see the results visually.

@@ -1,0 +1,42 @@
+Named Entity Recognition (NER), and explicitly using a specific model different from the defaults used previously.
+
+NER models identify and categorize key entities in text, such as names of people, organizations, locations, etc.
+
+Prerequisites:
+
+Ensure you have the necessary libraries. Like the zero-shot example, many tokenizers used by models like BERT require sentencepiece.
+
+Bash
+
+pip install transformers sentencepiece torch
+# Or: pip install transformers sentencepiece tensorflow
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We will explicitly use dbmdz/bert-large-cased-finetuned-conll03-english. This is a BERT-large model fine-tuned on the CoNLL-2003 NER dataset, known for good performance in identifying standard entity types (Person, Location, Organization, Misc).
+
+How to Run:
+
+Make sure you've run pip install transformers sentencepiece torch (or the tensorflow equivalent) in your activated virtual environment.
+Save the code above into a file named run_ner.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_ner.py
+What to Expect:
+
+First Run: It will download the dbmdz/bert-large-cased-finetuned-conll03-english model files, which are quite large (BERT-large is over 1GB), and cache them.
+NER Execution: It will process the input text sentence by sentence.
+Output: It will print a list of the entities found in the text. Thanks to aggregation_strategy="simple", it should group consecutive parts of an entity (like "Eleanor Vance"). You should expect it to identify:
+Eleanor Vance as PER (Person)
+Perth as LOC (Location)
+Globex Corporation as ORG (Organization)
+Yagan Square as LOC (Location)
+David Chen as PER (Person)
+Zenith Solutions as ORG (Organization)
+Art Gallery of Western Australia likely as ORG (sometimes complex names are tagged ORG) or maybe MISC.
+Western Australia might be identified separately as LOC.
+This example explicitly uses a different, specified model (dbmdz/bert...) for a distinct task (NER), showcasing more direct control over model choice while still leveraging the convenience of the pipeline framework.

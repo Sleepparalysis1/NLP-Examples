@@ -1,0 +1,27 @@
+Text Generation.
+
+This script will use a pre-trained model (GPT-2 by default) to generate text based on a starting prompt you provide.
+
+Prerequisites:
+
+Make sure you have the necessary libraries installed:
+
+Bash
+
+pip install transformers torch
+# Or: pip install transformers tensorflow
+
+How to Run:
+
+Save the code above into a file named run_generation.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment (if used) is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_generation.py
+What to Expect:
+
+First Run: It will download the gpt2 model files (which are larger than the sentiment model, potentially >500MB) and cache them locally. This might take some time.
+Generation: It will then use the loaded model to continue the text starting from your prompt ("Thinking about the beautiful weather...").
+Output: It will print the complete text (prompt + generated continuation) up to the max_length specified. Since num_return_sequences is 1, it will print one possible completion.

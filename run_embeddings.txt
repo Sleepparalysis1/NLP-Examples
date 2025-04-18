@@ -1,0 +1,94 @@
+Feature Extraction to get Sentence Embeddings (Vectors).
+
+Instead of classifying or generating text, this task converts sentences into dense numerical vectors (embeddings). These vectors capture the semantic meaning of the sentences, and sentences with similar meanings will have mathematically similar vectors. This is fundamental for tasks like semantic search, clustering, and sentence similarity comparison.
+
+For this task, we'll use the highly optimized sentence-transformers library, which is built on top of Hugging Face transformers and is the standard way to get high-quality sentence embeddings.
+
+Prerequisites:
+
+You'll need to install the sentence-transformers library in addition to a backend like torch.
+
+Bash
+
+pip install sentence-transformers torch
+# Or: pip install sentence-transformers tensorflow
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We will use sentence-transformers/all-MiniLM-L6-v2 model but add functionality to calculate cosine similarity and rank the sentences. The sentence-transformers library provides convenient utilities for this. This is a very popular model from the Sentence Transformers collection, known for its excellent balance of speed, size, and performance in generating meaningful sentence embeddings (384 dimensions).
+
+How to Run:
+
+Make sure you've run pip install sentence-transformers torch in your activated virtual environment.
+Save the code above into a file named run_similarity_search.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_similarity_search.py
+What to Expect:
+
+Model Loading: Downloads/caches the model if run for the first time.
+Encoding: Converts all corpus sentences and the query sentence into 384-dimensional vectors.
+Semantic Search: Calculates the cosine similarity between the query vector and all corpus vectors. It then identifies the top_k (in this case, 3) corpus sentences with the highest similarity scores.
+Output: It will print the original query and then list the top 3 sentences from the corpus ranked by their semantic similarity score. You should expect sentences like:
+"Traffic leaving the city centre can be busy around 2 PM." (Score should be highest as it directly addresses road congestion in the city).
+"Commuters might face delays on the freeway system." (Also relevant to traffic/congestion).
+Possibly "Finding parking downtown might be difficult this afternoon." (Related to city/driving difficulties). The scores will be between -1 and 1, with values closer to 1 indicating higher semantic similarity.
+
+=======================
+
+Generating sentence embeddings like in the last example is usually the first step in many powerful real-world NLP applications. The core idea is that these numerical vectors capture the semantic meaning of the sentences. Sentences with similar meanings will have vectors that are "close" to each other in the high-dimensional vector space.   
+
+This "closeness" is typically measured using Cosine Similarity, which calculates the cosine of the angle between two vectors. A cosine similarity close to 1 means the vectors point in very similar directions (high semantic similarity), while a value close to 0 means they are dissimilar (orthogonal), and close to -1 means they are opposites (though less common with this type of embedding).   
+
+Here's how you use these embeddings in the real world:
+
+Semantic Search / Information Retrieval:
+
+How: Instead of matching keywords, you match meaning. You pre-compute embeddings for a large collection of documents (e.g., articles, product descriptions, internal knowledge base entries, paragraphs from books). When a user enters a search query, you compute the embedding for the query and then calculate the cosine similarity between the query vector and all the document vectors.   
+Result: You rank the documents by similarity score. This allows you to find documents relevant to the meaning of the query, even if they use different words (e.g., query "best places to swim near Perth" might find documents mentioning "Cottesloe Beach" or "Sorrento Beach" even without the word "swim"). This is far more powerful than basic keyword search.
+Clustering / Topic Modeling:
+
+How: You generate embeddings for many pieces of text (e.g., customer reviews, news articles, survey responses). Then, you apply clustering algorithms (like K-Means, DBSCAN) directly to these embedding vectors.   
+Result: The algorithm groups texts with similar meanings together. You can analyze these clusters to discover underlying themes or topics within the data automatically (e.g., identifying common complaint categories in customer feedback without pre-defining them).   
+Recommendation Systems:
+
+How: Generate embeddings for items (e.g., articles, products, movies). You can then recommend items whose embeddings are similar to items a user has previously liked, viewed, or purchased.   
+Result: More relevant recommendations based on semantic content similarity (e.g., recommending news articles similar in topic to ones previously read).
+Paraphrase Detection / Duplicate Question Detection:
+
+How: Generate embeddings for pairs of sentences or questions. Calculate the cosine similarity between the vectors in each pair.
+Result: Pairs with a very high cosine similarity (e.g., > 0.85 or 0.9) are likely paraphrases or duplicates. This is useful for cleaning FAQs, forum posts, or datasets.
+Text Classification (as Features):
+
+How: Instead of using complex text features or fine-tuning a large model for classification, you can generate sentence embeddings for your training data and use these fixed-size vectors as input features for simpler, faster machine learning models (like Logistic Regression, SVM, or Gradient Boosting).
+Result: Can be a computationally cheaper way to build a good text classifier if fine-tuning a large transformer is too resource-intensive.
+Concrete Example (Semantic Search):
+
+Imagine you ran the previous script on these sentences and stored the embeddings:
+
+"It's a sunny Friday afternoon here in Perth." (Vector E1)
+"Many people are planning their weekend activities." (Vector E2)
+"Traffic leaving the city centre can be busy around 2 PM." (Vector E3)
+"A walk along the Swan River seems like a good idea." (Vector E4)
+"The weather in Western Australia is lovely today." (Vector E5)
+Now, a user searches for: "relaxing outdoor activities"
+
+You compute the embedding for the query: query_vec = model.encode("relaxing outdoor activities")
+You calculate cosine similarity:
+similarity(query_vec, E1)
+similarity(query_vec, E2)
+similarity(query_vec, E3)
+similarity(query_vec, E4)
+similarity(query_vec, E5)
+You'd expect similarity(query_vec, E4) (Swan River walk) to be the highest, perhaps followed by E1 and E5 (sunny weather). E3 (traffic) and E2 (general planning) would likely have much lower similarity scores.
+You return sentence 4 ("A walk along the Swan River...") as the most relevant result.
+In essence, sentence embeddings transform unstructured text into meaningful numerical representations that unlock a wide range of powerful analytical and retrieval capabilities.
+
+
+======
+
+

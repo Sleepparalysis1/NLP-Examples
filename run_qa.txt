@@ -1,0 +1,33 @@
+task of Extractive Question Answering (QA).
+
+In this task, the model doesn't generate an answer freely but instead tries to find the exact span of text within a given context paragraph that answers a specific question.
+
+Prerequisites:
+
+Ensure you have the necessary libraries. Models like DistilBERT often use tokenizers requiring sentencepiece.
+
+Bash
+
+pip install transformers sentencepiece torch
+# Or: pip install transformers sentencepiece tensorflow
+(Ensure your existing virtual environment is active).
+
+Explicit Model Choice:
+
+We will use distilbert-base-cased-distilled-squad. This is a distilled (smaller, faster) version of BERT that has been fine-tuned on the SQuAD (Stanford Question Answering Dataset). It's designed specifically for this extractive QA task and provides a good balance of speed and accuracy.
+
+How to Run:
+
+Make sure you've run pip install transformers sentencepiece torch (or the tensorflow equivalent) in your activated virtual environment.
+Save the code above into a file named run_qa.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_qa.py
+What to Expect:
+
+First Run: It will download the distilbert-base-cased-distilled-squad model and tokenizer files (a few hundred MB) and cache them locally.
+QA Execution: The model will read the context and the question, then identify the span in the context that best answers the question.
+Output: For the question "What event is causing setup crews to be busy in the central business district?", the model should identify and output the answer: "the upcoming 'Lumiere Perth' festival" (or possibly just 'Lumiere Perth' festival), along with a confidence score indicating how sure it is about that answer span.

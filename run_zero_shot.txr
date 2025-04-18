@@ -1,0 +1,26 @@
+Zero-shot classification allows you to classify text into categories (labels) that the model was not explicitly trained on. It does this by leveraging a model trained on Natural Language Inference (NLI), which understands semantic similarity. You provide the text and a list of candidate labels, and the model determines which label fits best.
+
+Prerequisites:
+
+Make sure you have the necessary libraries installed. Zero-shot models often require the sentencepiece library in addition to transformers:
+
+Bash
+
+pip install transformers sentencepiece torch
+# Or: pip install transformers sentencepiece tensorflow
+
+How to Run:
+
+Make sure you've run pip install transformers sentencepiece torch (or the tensorflow equivalent) in your activated virtual environment.
+Save the code above into a file named run_zero_shot.py.
+Open your Ubuntu terminal.
+Make sure your virtual environment is activated (source .venv/bin/activate).
+Run the script:
+Bash
+
+python run_zero_shot.py
+What to Expect:
+
+First Run: It will likely download the default zero-shot classification model (e.g., facebook/bart-large-mnli), which can be quite large (>1GB), and cache it locally. This might take some time.
+Classification: It will analyze the input sequence ("Thinking about heading down to Cottesloe...") against the provided candidate_labels.
+Output: It will print the original sequence and then list the candidate labels, ordered from the most likely match to the least likely, along with their corresponding confidence scores. You should expect "Outdoor Recreation" and/or "Leisure Activity" to have the highest scores for the example sentence.
