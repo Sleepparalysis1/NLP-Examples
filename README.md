@@ -32,7 +32,7 @@ This repository includes scripts for the following tasks:
 8.  **Fill-Mask (`run_fill_mask.py`)**
     * Task: Predicting masked words in a sentence (Masked Language Modeling).
     * Model: `roberta-base`
-9.  **Sentence Embeddings & Similarity (`run_embeddings.py`, `run_similarity_search.py`)**
+9.  **Sentence Embeddings & Similarity (`run_embeddings.py`)**
     * Task: Generating semantic vector representations and finding similar sentences.
     * Model: `sentence-transformers/all-MiniLM-L6-v2` (via `sentence-transformers` library)
 10. **Emotion Classification (`run_emotion.py`)**
@@ -41,7 +41,7 @@ This repository includes scripts for the following tasks:
 11. **Image Classification (`run_image_classification.py`)**
     * Task: Classifying the main subject of an image.
     * Model: `google/vit-base-patch16-224`
-12. **Object Detection (`run_object_detection_annotated.py`)**
+12. **Object Detection (`run_object_detection.py`)**
     * Task: Identifying multiple objects in an image with bounding boxes and labels (plus annotation).
     * Model: `facebook/detr-resnet-50`
 13. **Automatic Speech Recognition (ASR) (`run_asr_flexible.py`)**
