@@ -1,8 +1,8 @@
 # Hugging Face Local Inference Examples
 
-This repository contains a collection of Python scripts demonstrating how to run various AI tasks locally using models from the Hugging Face Hub and the `transformers` library (along with related libraries like `datasets`, `sentence-transformers`, etc.).
+This repository contains a collection of Python scripts demonstrating how to run various AI tasks locally using models from the Hugging Face Hub and the `transformers` library (along with related libraries like `datasets`, `sentence-transformers`, `pandas`, etc.).
 
-These examples cover a range of modalities including text, vision, and audio, showcasing different models and pipelines available within the Hugging Face ecosystem.
+These examples cover a range of modalities including text, vision, audio, and structured data (tables), showcasing different models and pipelines available within the Hugging Face ecosystem.
 
 ## Examples Included
 
@@ -32,7 +32,7 @@ This repository includes scripts for the following tasks:
 8.  **Fill-Mask (`run_fill_mask.py`)**
     * Task: Predicting masked words in a sentence (Masked Language Modeling).
     * Model: `roberta-base`
-9.  **Sentence Embeddings & Similarity (`run_embeddings.py`)**
+9.  **Sentence Embeddings & Similarity (`run_embeddings.py`, `run_similarity_search.py`)**
     * Task: Generating semantic vector representations and finding similar sentences.
     * Model: `sentence-transformers/all-MiniLM-L6-v2` (via `sentence-transformers` library)
 10. **Emotion Classification (`run_emotion.py`)**
@@ -41,7 +41,7 @@ This repository includes scripts for the following tasks:
 11. **Image Classification (`run_image_classification.py`)**
     * Task: Classifying the main subject of an image.
     * Model: `google/vit-base-patch16-224`
-12. **Object Detection (`run_object_detection.py`)**
+12. **Object Detection (`run_object_detection_annotated.py`)**
     * Task: Identifying multiple objects in an image with bounding boxes and labels (plus annotation).
     * Model: `facebook/detr-resnet-50`
 13. **Automatic Speech Recognition (ASR) (`run_asr_flexible.py`)**
@@ -53,6 +53,9 @@ This repository includes scripts for the following tasks:
 15. **Visual Question Answering (VQA) (`run_vqa.py`)**
     * Task: Answering questions based on image content.
     * Model: `dandelin/vilt-b32-finetuned-vqa`
+16. **Table Question Answering (`run_table_qa.py`)**
+    * Task: Answering questions based on tabular data.
+    * Model: `google/tapas-base-finetuned-wtq`
 
 *(Refer to comments within each script for more specific details on models and implementation.)*
 
@@ -68,9 +71,9 @@ Before running these scripts, ensure you have the following:
     *(Other operating systems may require different commands to install equivalent libraries).*
 3.  **Python Libraries:** It's highly recommended to use a Python virtual environment. You can install all common dependencies used across these examples with:
     ```bash
-    pip install transformers torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests
+    pip install transformers torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests pandas torch-scatter
     ```
-    * **Note:** Not every script requires *all* of these libraries. However, installing them all ensures you can run any example. Refer to individual script READMEs (if provided) or comments within the files for minimal requirements.
+    * **Note:** Not every script requires *all* of these libraries. However, installing them all ensures you can run any example. Refer to individual script READMEs (if provided) or comments within the files for minimal requirements. The Table QA example specifically added `pandas` and `torch-scatter`.
 
 ## General Usage
 
@@ -88,16 +91,16 @@ Before running these scripts, ensure you have the following:
 3.  **Install System Dependencies:** Follow the instructions in the Prerequisites section if applicable for your OS.
 4.  **Install Python Libraries:** Run the combined pip command from the Prerequisites section within your activated virtual environment.
 5.  **Configure Script Inputs (IMPORTANT):**
-    * Many scripts require you to provide input, such as a path to a local **image file** (`.jpg`, `.png`), an **audio file** (`.wav`, `.flac`), or specific **text/questions** inside the script.
+    * Many scripts require you to provide input, such as a path to a local **image file** (`.jpg`, `.png`), an **audio file** (`.wav`, `.flac`), specific **text/questions**, or **table data** inside the script.
     * **Open the specific `.py` script you want to run** in a text editor before executing it.
-    * Look for comments indicating `USER ACTION REQUIRED` or variables like `user_image_path`, `user_audio_path`, `question`, `text_to_summarize`, etc.
-    * **Modify these variables** according to the script's needs (e.g., provide a valid file path, change the question text). Some scripts include logic to download a sample file if a local one isn't found - read the script comments for details.
+    * Look for comments indicating `USER ACTION REQUIRED` or variables like `user_image_path`, `user_audio_path`, `question`, `text_to_summarize`, `data` (for table), etc.
+    * **Modify these variables** according to the script's needs (e.g., provide a valid file path, change the question text, update the table data). Some scripts include logic to download a sample file if a local one isn't found - read the script comments for details.
 6.  **Run the Script:**
     * Execute the desired script using Python from your terminal (ensure your virtual environment is active):
         ```bash
         python <script_name>.py
         ```
-        (e.g., `python run_sentiment.py`, `python run_vqa.py`)
+        (e.g., `python run_sentiment.py`, `python run_table_qa.py`)
 
 ## Model Downloads
 
@@ -105,12 +108,12 @@ The first time you run a script using a specific Hugging Face model, the necessa
 
 ## Hardware Considerations
 
-* **CPU:** Most scripts will run on a CPU, but performance (especially for larger models or complex tasks like vision, audio, generation) might be slow.
+* **CPU:** Most scripts will run on a CPU, but performance (especially for larger models or complex tasks like vision, audio, generation, table QA) might be slow.
 * **GPU:** An NVIDIA GPU with CUDA configured correctly and a compatible version of `torch` installed is highly recommended for significantly faster inference. The scripts include basic logic to attempt using the GPU if available.
-* **RAM:** Models vary greatly in size. Ensure you have sufficient RAM. Smaller models might need 4-8GB, while larger ones (like `large` variants, vision/audio models) might require 16GB or more.
+* **RAM:** Models vary greatly in size. Ensure you have sufficient RAM. Smaller models might need 4-8GB, while larger ones (like `large` variants, vision/audio/TAPAS models) might require 16GB or more.
 
 ## License
 
 * The Python scripts in this repository are provided as examples, likely under the MIT License (or specify your chosen license).
-* The Hugging Face libraries (`transformers`, `datasets`, etc.) are typically licensed under Apache 2.0.
-* Individual models downloaded from the Hugging Face Hub have their own licenses. Please refer to the model card on the Hub for specific terms of use for each model.
+* The Hugging Face libraries (`transformers`, `datasets`, etc.) are typically licensed under Apache 2.0. `pandas` uses a BSD license. `torch-scatter` uses MIT.
+* Individual models downloaded from the Hugging Face Hub have their own licenses. Please refer to the model card on the Hub for specific terms of use for each model (e.g., TAPAS and Whisper models are often Apache 2.0).
