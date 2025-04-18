@@ -13,7 +13,7 @@ print("-------------------------------------------")
 
 # --- Image Handling ---
 # 1. Define a path where the user *might* place their own image.
-user_image_path = "image_captioning.JPG1" # <-- YOU CAN CHANGE THIS
+user_image_path = "my_segmentation_image.jpg" # <-- YOU CAN CHANGE THIS
 
 # 2. Define a default image URL (city street view) and download path.
 #    Source: https://unsplash.com/photos/t倭YF547b0 (by Charles POSTIAUX)

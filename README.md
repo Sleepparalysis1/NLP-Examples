@@ -2,7 +2,7 @@
 
 This repository contains a collection of Python scripts demonstrating how to run various AI tasks locally using models from the Hugging Face Hub and the `transformers` library (along with related libraries like `datasets`, `sentence-transformers`, etc.).
 
-These examples cover a range of modalities including **Text**, **Vision**, and **Audio**, showcasing different models and pipelines available within the Hugging Face ecosystem. Each script aims to be runnable with minimal modification (often just providing an input file path).
+These examples cover a range of modalities including **Text**, **Vision**, and **Audio**, showcasing different models and pipelines available within the Hugging Face ecosystem. Each script aims to be runnable with minimal modification (often just providing an input file path or configuring text/labels within the script).
 
 ## Examples Included
 
@@ -67,6 +67,9 @@ The scripts are categorized by the primary data modality they handle:
 6.  **Depth Estimation (`run_depth_estimation.py`)**
     * Task: Estimating depth from a single image, saving a depth map.
     * Model: `Intel/dpt-large`
+7.  **Image Segmentation (`run_segmentation.py`)**
+    * Task: Assigning category labels (e.g., road, sky, car) to each pixel (requires `matplotlib`, `numpy`).
+    * Model: `nvidia/segformer-b0-finetuned-ade-512-512`
 
 ### 🎧 Audio Examples
 
@@ -79,6 +82,9 @@ The scripts are categorized by the primary data modality they handle:
 3.  **Zero-Shot Audio Classification (`run_zero_shot_audio.py`)**
     * Task: Classifying sounds against arbitrary text labels.
     * Model: `laion/clap-htsat-unfused`
+4.  **Text-to-Speech (TTS) (`run_tts.py`)**
+    * Task: Generating speech audio from text (requires `SpeechRecognition`, `protobuf`).
+    * Model: `microsoft/speecht5_tts` + `microsoft/speecht5_hifigan`
 
 *(Refer to comments within each script for more specific details on models and implementation.)*
 
@@ -94,7 +100,7 @@ Before running these scripts, ensure you have the following:
     *(Other operating systems may require different commands to install equivalent libraries).*
 3.  **Python Libraries:** It's highly recommended to use a Python virtual environment. You can install all common dependencies used across these examples with a single command:
     ```bash
-    pip install "transformers[audio]" torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests pandas torch-scatter ftfy regex numpy torchaudio
+    pip install "transformers[audio]" torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests pandas torch-scatter ftfy regex numpy torchaudio matplotlib SpeechRecognition protobuf
     ```
     * **Note:** Using `"transformers[audio]"` helps install common audio dependencies like `librosa`. We explicitly list others for clarity. Not every script requires *all* of these libraries. However, installing them all ensures you can run any example. Refer to individual script READMEs (if provided) or comments within the files for minimal requirements.
 
@@ -123,7 +129,7 @@ Before running these scripts, ensure you have the following:
         ```bash
         python <script_name>.py
         ```
-        (e.g., `python run_sentiment.py`, `python run_zero_shot_audio.py`)
+        (e.g., `python run_sentiment.py`, `python run_segmentation.py`)
 
 ## Model Downloads
 
