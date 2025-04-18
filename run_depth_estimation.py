@@ -1,4 +1,4 @@
-# Import pipeline, torch, os, requests, and Image from PIL
+# Import necessary libraries
 from transformers import pipeline
 import torch
 import os
@@ -7,20 +7,20 @@ from PIL import Image
 
 print("-------------------------------------------")
 print("Hugging Face Local Inference Example")
-print("Task: Image Captioning")
-print("Model: nlpconnect/vit-gpt2-image-captioning")
+print("Task: Depth Estimation")
+print("Model: Intel/dpt-large (Dense Prediction Transformer)")
 print("-------------------------------------------")
 
 # --- Image Handling ---
 # 1. Define a path where the user *might* place their own image.
-user_image_path = "cats.jpg" # <-- YOU CAN CHANGE THIS
+user_image_path = "image_captioning.JPG1" # <-- YOU CAN CHANGE THIS
 
-# 2. Define a default image URL (surfers on beach) and download path.
-#    Source: https://unsplash.com/photos/Tf-k_Dw19nU (by Austin Neill)
-default_image_url = "https://hips.hearstapps.com/hmg-prod/images/180-random-facts-the-best-fun-facts-to-have-on-hand-67c1d5cba5e7c.jpg"
-downloaded_image_path = "caption_sample_image.jpg"
+# 2. Define a default image URL (city street view) and download path.
+#    Source: https://unsplash.com/photos/t倭YF547b0 (by Charles POSTIAUX)
+default_image_url = "https://images.unsplash.com/photo-1744882838449-b3ad2ceff9a8?q=80&w=1974"
+downloaded_image_path = "depth_sample_image.jpg"
 image_to_process = None
-headers = {'User-Agent': 'Mozilla/5.0'} # Some sites require a user-agent header
+headers = {'User-Agent': 'Mozilla/5.0'} # Header for requests
 
 # 3. Decide which image to use
 if os.path.exists(user_image_path):
@@ -31,7 +31,7 @@ else:
     print(f"Attempting to download sample image from Unsplash...")
     try:
         response = requests.get(default_image_url, headers=headers, stream=True, timeout=15)
-        response.raise_for_status() # Raise an error for bad status codes
+        response.raise_for_status()
         with open(downloaded_image_path, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
@@ -45,9 +45,7 @@ else:
         except (IOError, SyntaxError) as e:
             print(f"Downloaded file is not a valid image or is corrupted: {e}")
             image_to_process = None
-            if os.path.exists(downloaded_image_path): # Clean up corrupted download
-                 os.remove(downloaded_image_path)
-
+            if os.path.exists(downloaded_image_path): os.remove(downloaded_image_path)
     except requests.exceptions.RequestException as e:
         print(f"ERROR: Could not download sample image: {e}")
     except IOError as e:
@@ -55,17 +53,16 @@ else:
 
 if image_to_process is None:
     print("\nERROR: No valid image available to process.")
-    print(f"Please place an image at '{user_image_path}' or ensure internet connection to download sample.")
     exit()
 # ------------------------
 
 # --- Model Loading ---
-print("\nLoading image captioning model (may download on first run)...")
+print("\nLoading Depth Estimation model (may download on first run)...")
 try:
-    # Use the "image-to-text" pipeline task
-    captioner = pipeline(
-        "image-to-text",
-        model="nlpconnect/vit-gpt2-image-captioning", # Explicit model name
+    # Use the "depth-estimation" pipeline task
+    depth_estimator = pipeline(
+        "depth-estimation",
+        model="Intel/dpt-large", # Explicit DPT model name
         device=0 if torch.cuda.is_available() else -1 # Use GPU if available, else CPU
         )
     print("Model loaded successfully.")
@@ -75,33 +72,34 @@ try:
         print("Running on CPU.")
 except Exception as e:
     print(f"Error loading model: {e}")
-    print("Ensure 'transformers', 'torch', 'Pillow', 'torchvision', 'timm' are installed.")
+    print("Ensure relevant libraries are installed: transformers, torch, Pillow, torchvision, timm...")
     exit()
 # ----------------------
 
-# --- Image Captioning ---
-print(f"\nGenerating caption for '{os.path.basename(image_to_process)}'...")
+# --- Depth Estimation ---
+print(f"\nEstimating depth for '{os.path.basename(image_to_process)}'...")
+output_path = "depth_map_output.png" # Save as PNG
 try:
-    # The pipeline handles loading, preprocessing, generation, and decoding
-    # It returns a list of dictionaries, usually just one.
-    captions = captioner(image_to_process)
-    print("Caption generation complete.")
+    # The pipeline returns a dictionary, usually with 'predicted_depth' (Tensor)
+    # and 'depth' (PIL.Image representation)
+    result = depth_estimator(image_to_process)
+    print("Depth estimation complete.")
 
-    # 5. Print the results
-    print("\n--- Generated Caption(s) ---")
-    if not captions:
-        print("Could not generate caption for the image.")
+    # 6. Save the resulting depth map image
+    if result and 'depth' in result and isinstance(result['depth'], Image.Image):
+        depth_map_image = result['depth']
+        depth_map_image.save(output_path)
+        print(f"\n--- Output ---")
+        print(f"Predicted depth map saved successfully to: {output_path}")
+        print(f"(Image size: {depth_map_image.size[0]}x{depth_map_image.size[1]})")
+        print("Note: In the output PNG, pixel intensity usually relates to depth.")
+        print("----------------")
     else:
-        for i, caption_data in enumerate(captions):
-             # Output structure is typically [{'generated_text': '...'}]
-             caption_text = caption_data.get('generated_text', 'Caption format unexpected')
-             print(f"Caption {i+1}: \"{caption_text}\"")
-             print("-" * 20) # Separator
-
-    print("-----------------------------")
+        print("Could not extract depth map image from pipeline result.")
+        print(f"Pipeline output: {result}") # Print full output for debugging
 
 except Exception as e:
-    print(f"Error during image captioning: {e}")
+    print(f"Error during depth estimation: {e}")
     if isinstance(e, FileNotFoundError):
          print(f"Internal error: Could not find the image file at {image_to_process}")
 
