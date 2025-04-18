@@ -75,6 +75,10 @@ The script will print status messages, including the image source used. The prim
 
 You can open `depth_map_output.png` with any standard image viewer to see the result.
 
+![depth_image](https://github.com/user-attachments/assets/515781ac-8f7e-47cc-9329-f96aa81c61d0)
+![depth_map_output](https://github.com/user-attachments/assets/8668833c-546e-4b48-a7f4-e6c88fa9b84a)
+
+
 ## Troubleshooting
 
 * **File Not Found errors:** Double-check the `user_image_path`. Check internet connection if relying on the fallback. Ensure the image file is readable.
