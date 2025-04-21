@@ -20,7 +20,7 @@ This script simulates a multi-turn dialogue locally using the `microsoft/DialoGP
 
 Before running the script, ensure you have the following installed:
 
-1.  **Python:** Python 3.8 or later recommended.
+1.  **Python:** Python 3.8 or later recommended. 
 2.  **System Dependencies:** None specific beyond standard build tools.
 3.  **Python Libraries:** Install using pip in a virtual environment.
     ```bash
